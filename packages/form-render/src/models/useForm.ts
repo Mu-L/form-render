@@ -73,7 +73,7 @@ const useForm = () => {
   const [form] = Form.useForm();
 
   const flattenSchemaRef = useRef({});
-  const storeRef: any = useRef();
+  const storeRef: any = useRef(null);
   const schemaRef = useRef({});
   const fieldRefs = useRef({});
 
@@ -96,7 +96,7 @@ const useForm = () => {
 
   const setStoreData = (data: any) => {
     const { setState } = storeRef.current;
-    
+
     if (!setState) {
       setTimeout(() => {
         setState({ schema: schemaRef.current, flattenSchema: flattenSchemaRef.current });
@@ -163,13 +163,15 @@ const useForm = () => {
   }
 
   // 获取表单数据
-  xform.getValues = (nameList?: any, filterFunc?: any) => {
+  xform.getValues = (nameList?: any, filterFunc?: any, notFilterUndefined?:boolean) => {
     let values = cloneDeep(form.getFieldsValue(getFieldName(nameList), filterFunc));
     const { removeHiddenData } = storeRef.current?.getState() || {};
     if (removeHiddenData) {
       values = filterValuesHidden(values, flattenSchemaRef.current);
     }
-    values = filterValuesUndefined(values);
+    if (!notFilterUndefined) {
+      values = filterValuesUndefined(values);
+    }
     return parseValuesToBind(values, flattenSchemaRef.current);
   }
 
@@ -195,7 +197,7 @@ const useForm = () => {
         form.setFieldValue(name, value);
       }
     } catch (error) {
-      
+
     }
   }
 
@@ -324,13 +326,14 @@ const useForm = () => {
   }
 
   // 触发表单验证
-  xform.validateFields = (pathList?: string[]) => {
+  xform.validateFields = (pathList?: string[], config?: object) => {
     const nameList = (pathList || []).map(path => getFieldName(path));
     if (nameList.length > 0) {
-      return validateFields(nameList);
+      return validateFields(nameList, config);
     }
     return validateFields();
-  }
+  };
+
 
   xform.getFlattenSchema = (path?: string) => {
     if (!path) {

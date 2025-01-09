@@ -81,7 +81,7 @@ const SearchForm: <RecordType extends object = any>(props: SearchProps<RecordTyp
   const fieldNum = Object.keys(schema?.properties || {}).length;
   const isColumn = (restProps.displayType || schema.displayType) === 'column';
   const operateShow = mode !== 'simple' || (mode === 'simple' && retainBtn);
-  const containerRef = useRef<any>();
+  const containerRef = useRef<any>(null);
 
   const [state, setState] = useSetState({
     hasCollapse: false, // 是否有折叠
@@ -106,6 +106,12 @@ const SearchForm: <RecordType extends object = any>(props: SearchProps<RecordTyp
   useMount(() => {
     initMount();
   });
+
+  useUpdateEffect(() => {
+    if (isExpand) {
+      initMount();
+    }
+  }, [isExpand]);
 
   useMount(() => {
     if (!collapsed) {
