@@ -161,10 +161,10 @@ rules: [
 
 
 ### action
-- 描述：输入控件支持配置自定义功能槽，显示在输入控件右边，通过 actions 值和 widgets 字段间映射，渲染自定义自定义功能槽。
+- 描述：输入控件支持配置自定义功能槽，显示在输入控件右边，通过 action 值和 widgets 字段间映射，渲染自定义自定义功能槽。
 - 类型
 ```js
-actions: 'toolWidget' | { widget: 'toolWidget' } // toolWidget 通过 widgets 透传
+action: 'toolWidget' | { widget: 'toolWidget' } // toolWidget 通过 widgets 透传
 ```
 
 ## 三、嵌套控件配置项
@@ -259,7 +259,7 @@ list: { // list 是字段名
 配置列表控件，可配置如下属性
 
 #### props.addBtnProps
-- 描述：添加按钮属性，参考 <a href="https://ant.design/components/button-cn#api" target="_blank">Antd Button Props</a>()
+- 描述：添加按钮属性，参考 <a href="https://ant.design/components/button-cn#api" target="_blank">Antd Button Props</a>
 - 类型：`ButtonProps`
 
 #### props.delConfirmProps
